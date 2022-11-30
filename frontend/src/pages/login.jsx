@@ -1,10 +1,16 @@
 import { useForm } from 'react-hook-form';
+import { useAuth } from '../context';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
 	const { register, handleSubmit } = useForm();
+  const auth = useAuth();
+  const navigate = useNavigate();
   	
-  	const onSubmit = (data) => {
-    	alert(JSON.stringify(data));
+  	const onSubmit = async (data) => {
+    	const result = await auth.login(data);
+      console.log(result);
+      if (result.success) navigate('/loading');
   	};
 
   return (

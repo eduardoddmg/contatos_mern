@@ -4,12 +4,12 @@ const ContactSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide company name'],
+      required: [true, 'Please provide  name'],
       maxlength: 50,
     },
     email: {
       type: String,
-      required: [true, 'Please provide position'],
+      required: [true, 'Please provide email'],
       maxlength: 100,
     },
     status: {

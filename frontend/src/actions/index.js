@@ -2,27 +2,29 @@ import axios from 'axios';
 
 const handleError = err => err.response.data;
 
-const instance = axios.create({
-	baseURL: 'http://localhost:3001/api/auth',
-	// headers: {' X-ACCESS-TOKEN': 'BuM9B%$!b$%'}
-});
 
-export const callServer = async (data, path, type) => {
+export const callServer = async (data, path, type, token) => {
+	const instance = axios.create({
+		baseURL: 'http://localhost:3001/api',
+		headers: {'authorization': token}
+	});
+
 	switch (type) {
 	    case 'get':
-	      return await getServer(path);
+	      return await getServer(path, instance);
 	    case 'post':
-	      return await postServer(path, data);
+	      return await postServer(path, data, instance);
 	    case 'patch':
-	      return await patchServer(path, data);
+	      return await patchServer(path, data, instance);
 	    case 'patch':
-	      return await deleteServer(path, data);
+	      return await deleteServer(path, data, instance);
 	}	
 };
 
-const getServer = async (path) => {
+const getServer = async (path, instance) => {
 	try {
 		const response = await instance.get(path);
+		console.log(response);
 		const result = response.data;
 		return result;
 	} catch(err) {
@@ -30,7 +32,7 @@ const getServer = async (path) => {
 	}
 };
 
-const postServer = async (path, data) => {
+const postServer = async (path, data, instance) => {
 	try {
 		const response = await instance.post(path, data);
 		const result = response.data;
@@ -40,7 +42,7 @@ const postServer = async (path, data) => {
 	}
 };
 
-const patchServer = async (path, data) => {
+const patchServer = async (path, data, instance) => {
 	try {
 		const response = await instance.patch(path, data);
 		const result = response.data;
@@ -50,7 +52,7 @@ const patchServer = async (path, data) => {
 	}
 };
 
-const deleteServer = async (path, data) => {
+const deleteServer = async (path, data, instance) => {
 	try {
 		const response = await instance.delete(path, data);
 		const result = response.data;

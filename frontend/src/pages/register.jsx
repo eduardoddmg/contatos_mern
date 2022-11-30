@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context';
 
 export const Register = () => {
   const { register, handleSubmit } = useForm();
 
   const navigate = useNavigate();
+  const auth = useAuth();
 
-  const onSubmit = (data) => {
-  	alert(JSON.stringify(data));
+  const onSubmit = async (data) => {
+    await auth.register(data);
   };
 
   return (
