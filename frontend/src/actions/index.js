@@ -16,8 +16,8 @@ export const callServer = async (data, path, type, token) => {
 	      return await postServer(path, data, instance);
 	    case 'patch':
 	      return await patchServer(path, data, instance);
-	    case 'patch':
-	      return await deleteServer(path, data, instance);
+	    case 'delete':
+	      return await deleteServer(path, instance);
 	}	
 };
 
@@ -52,9 +52,9 @@ const patchServer = async (path, data, instance) => {
 	}
 };
 
-const deleteServer = async (path, data, instance) => {
+const deleteServer = async (path, instance) => {
 	try {
-		const response = await instance.delete(path, data);
+		const response = await instance.delete(path);
 		const result = response.data;
 		return result;
 	} catch(err) {

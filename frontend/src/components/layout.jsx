@@ -1,13 +1,10 @@
 import { Outlet, Link } from 'react-router-dom';
+import { Navbar as NavbarChakra } from './chakra';
 
 export const Layout = () => {
 	return (
 		<>
-			<nav>
-				<Link to="/">Home</Link>
-				<Link to="/login">Login</Link>
-				<Link to="/register">Register</Link>
-			</nav>
+			<NavbarChakra />
 			<Outlet />
 		</>
 	)

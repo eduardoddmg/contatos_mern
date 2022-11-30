@@ -27,16 +27,15 @@ export const ContactProvider = ({ children }) => {
     return result;
   };
 
-  const edit = async () => {
-    const result = await callServer({}, '/contact', 'get', auth.token);
-    if (result.success) setData(result.contacts);
-    return result;
+  const edit = async (data, id) => {
+    const result = await callServer(data, `/contact/${id}`, 'patch', auth.token);
+    if (result.success) return getAll();
   };
 
-  const remove = async () => {
-    const result = await callServer({}, '/contact', 'get', auth.token);
-    if (result.success) setData(result.contacts);
-    return result;
+  const remove = async (id) => {
+    console.log(id);
+    const result = await callServer({}, `/contact/${id}`, 'delete', auth.token);
+    if (result.success) return getAll();
   };
 
   return (
@@ -44,7 +43,9 @@ export const ContactProvider = ({ children }) => {
       value={{
         data,
         register,
-        getAll
+        getAll,
+        remove,
+        edit
       }}
     >
       {children}

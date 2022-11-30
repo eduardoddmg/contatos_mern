@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context';
 import { useEffect } from 'react';
+import { Layout } from './layout';
 
 export const WithAuth = () => {
 	const { isLogged } = useAuth();
@@ -11,5 +12,7 @@ export const WithAuth = () => {
 	}, [isLogged]);
 
 
-	return <Outlet />
+	return <Layout>
+		<Outlet />
+	</Layout>
 }

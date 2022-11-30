@@ -59,9 +59,9 @@ const deleteContact = async (req, res) => {
     createdBy: userId,
   })
   if (!contact) {
-    return handleError(res, `No contact with id ${jobId}`, 400);
+    return handleError(res, `No contact with id ${contactId}`, 400);
   }
-  return res.status(StatusCodes.OK).json({ success: true, message: 'contato deletado com sucesso!'})
+  return res.status(200).json({ success: true, message: 'contato deletado com sucesso!'})
 }
 
 module.exports = {

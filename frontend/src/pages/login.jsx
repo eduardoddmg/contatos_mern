@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context';
 import { useNavigate } from 'react-router-dom';
+import { Form as FormChakra } from '../components/chakra';
 
 export const Login = () => {
 	const { register, handleSubmit } = useForm();
@@ -15,6 +16,7 @@ export const Login = () => {
 
   return (
     <div className="App">
+      <FormChakra login />
     	<h1>Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>

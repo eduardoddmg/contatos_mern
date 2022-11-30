@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
     setUsername("");
     setToken("");
     setIsLogged(false);
+    console.log('cheguei aqui');
+    return true;
   }
 
   return (
