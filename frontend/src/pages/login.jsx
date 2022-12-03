@@ -1,19 +1,13 @@
-import {
-  VStack,
-  Center,
-  Button,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { VStack, Center, Button, Heading, Text } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import { useAuth } from "../context";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { InputPassword, Input, Alert } from '../components/chakra';
-import { configForm } from '../utils';
+import { InputPassword, Input, Alert } from "../components/chakra";
+import { configForm } from "../utils";
 
-export const  Login = () => {
-  const [messageAlert, setMessageAlert] = useState('');
+export const Login = () => {
+  const [messageAlert, setMessageAlert] = useState("");
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -50,9 +44,17 @@ export const  Login = () => {
         <Heading>Login</Heading>
         {auth.messageError && <Alert success={false} />}
         {auth.messageSuccess && <Alert success />}
-        <Input title="Username" errors={errors.username} {...register("username", configForm.username)} />
-        <InputPassword title="Password" errors={errors} {...register("password", configForm.username)} />
-        <Button isLoading={loading} type="submit" colorScheme="green" w="100%">
+        <Input
+          title="Username"
+          errors={errors.username}
+          {...register("username", configForm.username)}
+        />
+        <InputPassword
+          title="Password"
+          errors={errors}
+          {...register("password", configForm.username)}
+        />
+        <Button isLoading={loading} type="submit" colorScheme="purple" w="100%">
           Entrar
         </Button>
         <Center>
@@ -66,4 +68,4 @@ export const  Login = () => {
       </VStack>
     </Center>
   );
-}
+};

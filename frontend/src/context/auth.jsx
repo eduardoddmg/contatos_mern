@@ -7,41 +7,41 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [isLogged, setIsLogged] = useState(false);
-  const [messageError, setMessageError] = useState('');
-  const [messageSuccess, setMessageSuccess] = useState('');
+  const [messageError, setMessageError] = useState("");
+  const [messageSuccess, setMessageSuccess] = useState("");
 
   const register = async (data) => {
-    const result =  await callServer(data, '/auth/register', 'post');
+    const result = await callServer(data, "/auth/register", "post");
     if (result.success) {
-      setMessageSuccess("conta criada com sucesso")
-      setMessageError('');
+      setMessageSuccess("conta criada com sucesso");
+      setMessageError("");
     } else {
-      setMessageSuccess("")
+      setMessageSuccess("");
       setMessageError(result.message);
     }
     return result;
   };
 
   const login = async (data) => {
-    const result = await callServer(data, '/auth/login', 'post', token);
+    const result = await callServer(data, "/auth/login", "post", token);
     if (result.success) {
       setUsername(result.username);
       setToken(result.token);
-      setMessageSuccess('')
+      setMessageSuccess("");
       setIsLogged(true);
-    } else setMessageError(result.message)
+    } else setMessageError(result.message);
     return result;
-  }
+  };
 
   const logout = () => {
     setUsername("");
     setToken("");
     setIsLogged(false);
-    console.log('cheguei aqui');
+    console.log("cheguei aqui");
     return true;
-  }
+  };
 
-  const resetMessage = () => setMessageError('');
+  const resetMessage = () => setMessageError("");
 
   return (
     <AuthContext.Provider
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         messageError,
         messageSuccess,
-        resetMessage
+        resetMessage,
       }}
     >
       {children}

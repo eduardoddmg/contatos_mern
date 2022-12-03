@@ -12,7 +12,7 @@ const postLogin = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return handleError(res, 'senha invalida', 401);
     }
-    
+
     // compare password
     const token = user.createJWT()
     return res.status(200).json({ success: true, username: user.username, token });
@@ -26,17 +26,17 @@ const postRegister = async (req, res, next) => {
   const request = req.body;
 
   const { username, password } = req.body;
-  
+
   try {
     const userExists = await User.exists({ username })
-    
+
     if (!userExists) {
-      const user = await User.create({...request});
+      const user = await User.create({ ...request });
       const token = user.createJWT();
-      res.status(201).json({ success: true, message: 'usuário criado com sucesso', token});
+      res.status(201).json({ success: true, message: 'usuário criado com sucesso', token });
     }
     else return handleError(res, 'usuário já existe', 400);
-    
+
   } catch (err) {
     console.log(err);
     return handleError(res, 'algo deu errado', 500);

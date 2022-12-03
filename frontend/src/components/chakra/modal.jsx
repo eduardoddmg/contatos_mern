@@ -1,4 +1,14 @@
-import { useDisclosure, Modal as ModalChakra, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
+import {
+  useDisclosure,
+  Modal as ModalChakra,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@chakra-ui/react";
 
 export const Modal = ({ children, title, onOpen, isOpen, onClose }) => {
   return (
@@ -8,11 +18,9 @@ export const Modal = ({ children, title, onOpen, isOpen, onClose }) => {
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            {children}
-          </ModalBody>
+          <ModalBody>{children}</ModalBody>
         </ModalContent>
       </ModalChakra>
     </>
-  )
-}
+  );
+};

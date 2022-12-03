@@ -1,20 +1,20 @@
-import { useAuth } from '../context';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Center, Spinner } from '@chakra-ui/react';
+import { useAuth } from "../context";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Center, Spinner } from "@chakra-ui/react";
 
 export const Logout = () => {
-	const auth = useAuth();
-	const navigate = useNavigate();
+  const auth = useAuth();
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		console.log('cheguei aqui')
-		auth.logout();
-	}, []);
+  useEffect(() => {
+    console.log("cheguei aqui");
+    auth.logout();
+  }, []);
 
-	return (
-		<Center mt="10vh">
-			<Spinner size="xl" />
-		</Center>
-	)
-}
+  return (
+    <Center mt="10vh">
+      <Spinner size="xl" />
+    </Center>
+  );
+};

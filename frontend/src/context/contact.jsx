@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { callServer } from "../actions";
-import { useAuth } from './auth';
+import { useAuth } from "./auth";
 
 export const ContactContext = createContext({});
 
@@ -10,31 +10,36 @@ export const ContactProvider = ({ children }) => {
   const [data, setData] = useState([]);
 
   const register = async (data) => {
-    const result = await callServer(data, '/contact', 'post', auth.token);
+    const result = await callServer(data, "/contact", "post", auth.token);
     console.log(result);
     if (result.success) return getAll();
   };
 
   const getAll = async () => {
-    const result = await callServer({}, '/contact', 'get', auth.token);
+    const result = await callServer({}, "/contact", "get", auth.token);
     if (result.success) setData(result.contacts);
     return result;
   };
 
   const get = async () => {
-    const result = await callServer({}, '/contact', 'get', auth.token);
+    const result = await callServer({}, "/contact", "get", auth.token);
     if (result.success) setData(result.contacts);
     return result;
   };
 
   const edit = async (data, id) => {
-    const result = await callServer(data, `/contact/${id}`, 'patch', auth.token);
+    const result = await callServer(
+      data,
+      `/contact/${id}`,
+      "patch",
+      auth.token
+    );
     if (result.success) return getAll();
   };
 
   const remove = async (id) => {
     console.log(id);
-    const result = await callServer({}, `/contact/${id}`, 'delete', auth.token);
+    const result = await callServer({}, `/contact/${id}`, "delete", auth.token);
     if (result.success) return getAll();
   };
 
@@ -45,7 +50,7 @@ export const ContactProvider = ({ children }) => {
         register,
         getAll,
         remove,
-        edit
+        edit,
       }}
     >
       {children}
