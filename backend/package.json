@@ -2,10 +2,10 @@
   "name": "agenda",
   "version": "1.0.0",
   "description": "Uma agenda simples para você gerenciar os seus contatos",
-  "main": "backend/src/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm i && node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },
   "repository": {
