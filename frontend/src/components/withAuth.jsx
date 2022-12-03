@@ -1,9 +1,11 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout } from './layout';
+import { LoadingComponent } from './loading'
 
 export const WithAuth = () => {
+	const [loading, setLoading] = useState(true);
 	const { isLogged } = useAuth();
 	const navigate = useNavigate();
 
@@ -11,8 +13,10 @@ export const WithAuth = () => {
 		if (!isLogged) navigate('/login');
 	}, [isLogged]);
 
+	useEffect(() => {
+		setLoading(false);
+	}, [])
 
-	return <Layout>
-		<Outlet />
-	</Layout>
+
+	return loading ? <LoadingComponent /> : <Outlet />
 }

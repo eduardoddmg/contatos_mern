@@ -1,6 +1,8 @@
 import { useContact, useAuth } from '../context';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Center, Spinner } from '@chakra-ui/react';
+import { LoadingComponent } from '../components';
 
 export const Loading = () => {
 	const contact = useContact();
@@ -16,7 +18,5 @@ export const Loading = () => {
 		if (auth.isLogged) fetchData();
 	}, []);
 
-	return (
-		<h1>Loading...</h1>
-	)
+	return <LoadingComponent />
 }

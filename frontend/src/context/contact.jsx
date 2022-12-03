@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { callServer } from "../actions";
 import { useAuth } from './auth';
 
@@ -7,7 +7,7 @@ export const ContactContext = createContext({});
 export const ContactProvider = ({ children }) => {
   const auth = useAuth();
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   const register = async (data) => {
     const result = await callServer(data, '/contact', 'post', auth.token);

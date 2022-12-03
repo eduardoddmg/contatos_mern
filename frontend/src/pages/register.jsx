@@ -1,35 +1,72 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context';
-import { Form as FormChakra } from '../components/chakra';
+import {
+  VStack,
+  Center,
+  FormControl,
+  FormLabel,
+  Button,
+  Heading,
+  Text,
+  FormErrorMessage,
+} from "@chakra-ui/react";
+import { useState, useEffect, useContext } from "react";
+import { useAuth } from "../context";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { InputPassword, Input, Alert } from '../components/chakra';
+import { configForm } from '../utils';
 
-export const Register = () => {
-  const { register, handleSubmit } = useForm();
+export const  Register = () => {
+  const [messageAlert, setMessageAlert] = useState('');
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-  const navigate = useNavigate();
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    await auth.register(data);
+  const loginForm = async (data) => {
+    setLoading(true);
+    const result = await auth.register(data);
+    setLoading(false);
   };
 
-  return (
-    <div className="App">
-      <FormChakra />
-    	<h1>Register</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Username</label>
-          <input type="text" {...register('username')} />
-        </div>
+  useEffect(() => {
+    auth.resetMessage();
+  }, []);
 
-        <div>
-          <label>Password</label>
-          <input type="password" {...register('password')} />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+  return (
+    <Center w="100%">
+      <VStack
+        onSubmit={handleSubmit(loginForm)}
+        spacing={5}
+        w={["95%", "40%"]}
+        my="10vh"
+        maxW="1500px"
+        as="form"
+        bg="#f4f4f4"
+        p={[2, 10]}
+      >
+        <Heading>Register</Heading>
+        {auth.messageError && <Alert success={false} />}
+        {auth.messageSuccess && <Alert success />}
+        <Input title="Username" errors={errors.username} {...register("username", configForm.username)} />
+        <InputPassword title="Password" errors={errors} {...register("password", configForm.username)} />
+        <Button isLoading={loading} type="submit" colorScheme="green" w="100%">
+          Entrar
+        </Button>
+        <Center>
+          <Text>
+            Já tem uma conta?{" "}
+            <Link to="/login" style={{ fontWeight: "bold" }}>
+              Entrar na conta
+            </Link>
+          </Text>
+        </Center>
+      </VStack>
+    </Center>
   );
 }
