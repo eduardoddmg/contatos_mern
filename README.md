@@ -2,7 +2,7 @@
 ![imagem do projeto](screen.jpg)
 <br>
 ## Introdução
-Esse projeto é um gestor financeiro que consiste em o usuáiro conseguir controlar as suas finanças com maestria e eficiência, de modo a separar o seu dinheiro em 3 seções: entrada,saída e investimento.
+É um gerenciador de contatos que é possível adicionar, remover e atualizar contatos. Foi desenvolvido com as principais tecnologias do mercado
 ## Rodar o projeto
 Clone o projeto
 ```
