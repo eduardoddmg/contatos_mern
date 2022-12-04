@@ -6,7 +6,7 @@ Esse projeto é um gestor financeiro que consiste em o usuáiro conseguir contro
 ## Rodar o projeto
 Clone o projeto
 ```
-git clone https://github.com/eduardoddmg/expenses-tracker
+git clone https://github.com/eduardoddmg/contatos_mern
 ```
 Rodar Front-End
 ```
