@@ -16,14 +16,14 @@ export const InputPassword = forwardRef((props, ref) => {
   const handleClick = () => setShow(!show);
 
   return (
-    <FormControl isInvalid={errors.username}>
+    <FormControl isInvalid={errors}>
       <FormLabel>{title}</FormLabel>
       <InputGroup>
         <Input
           ref={ref}
           focusBorderColor="purple.500"
           type={show ? "text" : "password"}
-          {...props}
+          {...rest}
         />
         <InputRightElement width="4.5rem">
           <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -31,8 +31,8 @@ export const InputPassword = forwardRef((props, ref) => {
           </Button>
         </InputRightElement>
       </InputGroup>
-      {errors.username && (
-        <FormErrorMessage>{errors.username.message}</FormErrorMessage>
+      {errors && (
+        <FormErrorMessage>{errors.message}</FormErrorMessage>
       )}
     </FormControl>
   );

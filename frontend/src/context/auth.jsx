@@ -7,17 +7,14 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [token, setToken] = useState("");
   const [isLogged, setIsLogged] = useState(false);
-  const [messageError, setMessageError] = useState("");
-  const [messageSuccess, setMessageSuccess] = useState("");
+  const [message, setMessage] = useState({txt: "", success: false});
 
   const register = async (data) => {
     const result = await callServer(data, "/auth/register", "post");
     if (result.success) {
-      setMessageSuccess("conta criada com sucesso");
-      setMessageError("");
+      setMessage({txt: "conta criada com sucesso", success: true});
     } else {
-      setMessageSuccess("");
-      setMessageError(result.message);
+      setMessageError({txt: result.message, success: false});
     }
     return result;
   };
@@ -27,9 +24,9 @@ export const AuthProvider = ({ children }) => {
     if (result.success) {
       setUsername(result.username);
       setToken(result.token);
-      setMessageSuccess("");
+      setMessage("");
       setIsLogged(true);
-    } else setMessageError(result.message);
+    } else setMessage({txt: result.message, success: false});
     return result;
   };
 
@@ -41,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
-  const resetMessage = () => setMessageError("");
+  const resetMessage = () => setMessage("");
 
   return (
     <AuthContext.Provider
@@ -52,8 +49,7 @@ export const AuthProvider = ({ children }) => {
         register,
         login,
         logout,
-        messageError,
-        messageSuccess,
+        message,
         resetMessage,
       }}
     >

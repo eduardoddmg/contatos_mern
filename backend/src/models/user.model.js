@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken')
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    maxlength: 15,
-    minlength: 8,
+    required: [true, 'Please provide username'],
+    maxlength: [15, '8-15 char [username]'],
+    minlength: [8, '8-15 char [username]'],
   },
   password: {
     type: String,
-    required: true,
-    maxlength: 15,
-    minlength: 8,
+    required: [true, 'Please provide password'],
+    maxlength: [15, '8-15 char [username]'],
+    minlength: [8, '8-15 char [username]'],
   },
 })
 

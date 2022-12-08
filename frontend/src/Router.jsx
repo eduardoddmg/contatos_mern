@@ -1,4 +1,4 @@
-import { Home, PageError, Login, Register, Loading, Logout } from "./pages";
+import { Home, Contact, PageError, Login, Register, Loading, Logout } from "./pages";
 import { Layout, WithAuth, WithoutAuth } from "./components";
 import { Routes, Route } from "react-router-dom";
 
@@ -8,6 +8,7 @@ const Router = () => {
       <Route path="/">
         <Route element={<WithAuth />}>
           <Route index element={<Home />} />
+          <Route path=":contactId" element={<Contact />} />
           <Route path="loading" element={<Loading />} />
           <Route path="logout" element={<Logout />} />
         </Route>

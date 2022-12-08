@@ -6,19 +6,19 @@ import {
 } from "@chakra-ui/react";
 import { useAuth } from "../../context";
 
-export const Alert = ({ success }) => {
+export const Alert = () => {
   const auth = useAuth();
 
-  return success ? (
+  return auth.message.success ? (
     <AlertChakra status="success">
       <AlertIcon />
-      {auth.messageSuccess}
+      {auth.message.txt}
     </AlertChakra>
   ) : (
     <AlertChakra status="error" align="center">
       <AlertIcon />
       <AlertTitle pb={0}>Algo aconteceu!</AlertTitle>
-      <AlertDescription>{auth.messageError}</AlertDescription>
+      <AlertDescription>{auth.message.txt}</AlertDescription>
     </AlertChakra>
   );
 };

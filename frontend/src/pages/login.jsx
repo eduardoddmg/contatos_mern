@@ -25,10 +25,6 @@ export const Login = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    auth.resetMessage();
-  }, []);
-
   return (
     <Center w="100%">
       <VStack
@@ -42,8 +38,7 @@ export const Login = () => {
         p={[2, 10]}
       >
         <Heading>Login</Heading>
-        {auth.messageError && <Alert success={false} />}
-        {auth.messageSuccess && <Alert success />}
+        {auth.message.txt && <Alert />}
         <Input
           title="Username"
           errors={errors.username}
@@ -51,8 +46,8 @@ export const Login = () => {
         />
         <InputPassword
           title="Password"
-          errors={errors}
-          {...register("password", configForm.username)}
+          errors={errors.password}
+          {...register("password", configForm.password)}
         />
         <Button isLoading={loading} type="submit" colorScheme="purple" w="100%">
           Entrar

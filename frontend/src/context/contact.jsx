@@ -21,9 +21,8 @@ export const ContactProvider = ({ children }) => {
     return result;
   };
 
-  const get = async () => {
-    const result = await callServer({}, "/contact", "get", auth.token);
-    if (result.success) setData(result.contacts);
+  const get = async (id) => {
+    const result = await callServer({}, `/contact/${id}`, "get", auth.token);
     return result;
   };
 
@@ -49,6 +48,7 @@ export const ContactProvider = ({ children }) => {
         data,
         register,
         getAll,
+        get,
         remove,
         edit,
       }}

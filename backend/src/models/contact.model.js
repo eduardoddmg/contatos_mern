@@ -5,12 +5,20 @@ const ContactSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, 'Please provide  name'],
-      maxlength: 50,
+      maxlength: [50, '50 max [name]'],
     },
     email: {
       type: String,
       required: [true, 'Please provide email'],
-      maxlength: 100,
+    },
+    CPF: {
+      type: String,
+    },
+    RG: {
+      type: String,
+    },
+    tel: {
+      type: String,
     },
     status: {
       type: String,

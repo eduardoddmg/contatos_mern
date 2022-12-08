@@ -48,7 +48,7 @@ const updateContact = async (req, res) => {
     } = req
 
     if (name === '' || email === '') {
-      return handleError(res, 'Company or Position fields cannot be empty', 400);
+      return handleError(res, 'Name or Email fields cannot be empty', 400);
     }
     const contact = await Contact.findByIdAndUpdate(
       { _id: contactId, createdBy: userId },

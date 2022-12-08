@@ -14,10 +14,11 @@ import {
   Spinner,
   Skeleton,
 } from "@chakra-ui/react";
-import { AddIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, EditIcon, DeleteIcon, InfoOutlineIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { Modal, Input, Table } from "../components/chakra";
 import { Layout, LoadingComponent } from "../components";
 import { configForm } from "../utils";
+import { useNavigate } from 'react-router-dom';
 
 const Form = ({ onClose, item, edit }) => {
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,9 @@ const Form = ({ onClose, item, edit }) => {
     defaultValues: {
       name: item?.name,
       email: item?.email,
+      CPF: item?.CPF,
+      RG: item?.RG,
+      tel: item?.tel,
     },
   });
   const contact = useContact();
@@ -55,7 +59,10 @@ const Form = ({ onClose, item, edit }) => {
         errors={errors.name}
         {...register("name", configForm.username)}
       />
-      <Input title="Email" type="email" {...register("email")} />
+      <Input title="Email" type="email" errors={errors.email} {...register("email", configForm.email)} />
+      <Input title="CPF" type="number" errors={errors.CPF} {...register("CPF", configForm.CPF)} />
+      <Input title="RG" type="number" errors={errors.RG} {...register("RG", configForm.RG)} />
+      <Input title="Telefone" type="number" errors={errors.tel} {...register("tel", configForm.tel)} />
       <Button isLoading={loading} my={5} colorScheme="purple" type="submit">
         Submit
       </Button>
@@ -72,6 +79,8 @@ export const Home = () => {
 
   const contact = useContact();
   const auth = useAuth();
+
+  const navigate = useNavigate();
 
   const add = () => {
     onOpen();
@@ -130,6 +139,12 @@ export const Home = () => {
                           onClick={() => remove(item._id)}
                         >
                           <DeleteIcon />
+                        </Button>
+                        <Button
+                          bg="transparent"
+                          onClick={() => navigate(`/${item._id}`)}
+                        >
+                          <ExternalLinkIcon />
                         </Button>
                       </Td>
                     </Tr>

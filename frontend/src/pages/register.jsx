@@ -28,9 +28,10 @@ export const Register = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const loginForm = async (data) => {
+  const registerForm = async (data) => {
     setLoading(true);
     const result = await auth.register(data);
+    if (result.success) navigate('/login');
     setLoading(false);
   };
 
@@ -41,7 +42,7 @@ export const Register = () => {
   return (
     <Center w="100%">
       <VStack
-        onSubmit={handleSubmit(loginForm)}
+        onSubmit={handleSubmit(registerForm)}
         spacing={5}
         w={["95%", "40%"]}
         my="10vh"
@@ -51,8 +52,7 @@ export const Register = () => {
         p={[2, 10]}
       >
         <Heading>Register</Heading>
-        {auth.messageError && <Alert success={false} />}
-        {auth.messageSuccess && <Alert success />}
+        {auth.message.txt && <Alert />}
         <Input
           title="Username"
           errors={errors.username}
@@ -60,8 +60,8 @@ export const Register = () => {
         />
         <InputPassword
           title="Password"
-          errors={errors}
-          {...register("password", configForm.username)}
+          errors={errors.password}
+          {...register("password", configForm.password)}
         />
         <Button isLoading={loading} type="submit" colorScheme="purple" w="100%">
           Entrar
