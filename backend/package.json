@@ -4,6 +4,7 @@
   "description": "Uma agenda simples para você gerenciar os seus contatos",
   "main": "src/index.js",
   "scripts": {
+    "build": "npm i",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
