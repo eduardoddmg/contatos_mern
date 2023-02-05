@@ -5,7 +5,7 @@ const handleError = err => err.response.data;
 
 export const callServer = async (data, path, type, token) => {
 	const instance = axios.create({
-		baseURL: 'http://localhost:3001/api',
+		baseURL: 'https://contatos-mern.onrender.com/api',
 		headers: {'authorization': token}
 	});
 
