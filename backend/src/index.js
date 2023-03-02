@@ -23,8 +23,8 @@ mongoose.connect(process.env.MONGODB_URI);
 app.listen(port, () => console.log("Servidor na porta: ", port));
 
 // routes
-app.get("/", (req, res) => {
-  return res.send("Bem-vindo à API!");
+app.get("/api", (req, res) => {
+  return res.send({success: true, message: "Bem-vindo à API"});
 });
 
 app.all("*", (req, res) => {

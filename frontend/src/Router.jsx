@@ -5,7 +5,7 @@ import * as Component from "./components";
 const Router = () => {
   return (
     <Routes>
-      <Route path="/">
+      <Route path="/" element={<Component.Wait />}>
         <Route
           element={<Component.PrivateRoute role="user" redirectTo="/login" />}
         >

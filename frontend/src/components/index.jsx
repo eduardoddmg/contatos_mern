@@ -5,3 +5,4 @@ export * from './layout';
 export * from './alert';
 export * from './input';
 export * from './table';
+export * from './wait';
