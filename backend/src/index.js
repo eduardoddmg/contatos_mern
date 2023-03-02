@@ -20,11 +20,11 @@ initRoutes(app);
 mongoose.connect(process.env.MONGODB_URI);
 
 // server listening
-app.listen(port, () => console.log("Server listening to", port));
+app.listen(port, () => console.log("Servidor na porta: ", port));
 
 // routes
 app.get("/", (req, res) => {
-  return res.send("Welcome to API");
+  return res.send("Bem-vindo à API!");
 });
 
 app.all("*", (req, res) => {

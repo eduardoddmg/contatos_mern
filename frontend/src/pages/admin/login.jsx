@@ -5,16 +5,15 @@ import {
   InputGroup,
   Spinner,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth, useInfo } from "../../context";
 import { useState } from "react";
-import { useAuth, useInfo } from "../context";
-import { Input, Alert } from '../components';
-import { schemaAccount } from '../utils';
+import { schemaAccount } from '../../utils';
+import { Input, Alert } from '../../components';
 
-export const Register = () => {
-  const navigate = useNavigate();
+export const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const auth = useAuth();
@@ -30,18 +29,15 @@ export const Register = () => {
   });
 
   const submit = async (data) => {
-    data.type = "user";
+    data.type = "admin";
     setLoading(true);
-
-    const response = await auth.register(data);
-    if (response) navigate("/login");
-
+    const response = await auth.login(data);
     setLoading(false);
   };
 
   return (
     <Stack className="col-md-5 col-10 mx-auto my-5" gap={4}>
-      <h1 className="fs-2 text-center">Register</h1>
+      <h1 className="fs-2 text-center">Login - Admin</h1>
       <Alert />
       <Form
         className="d-flex flex-column gap-2"
@@ -60,6 +56,14 @@ export const Register = () => {
           {...register("password")}
         />
 
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check
+            type="checkbox"
+            label="Mantenha-me logado"
+            {...register("checkbox")}
+          />
+        </Form.Group>
+
         <Button
           variant="primary"
           type="submit"
@@ -70,7 +74,7 @@ export const Register = () => {
         </Button>
 
         <p className="text-center py-3">
-          Já tem uma conta? <Link to="/login">Entrar na conta</Link>
+          Não tem uma conta? <Link to="/admin/register">Criar conta</Link>
         </p>
       </Form>
     </Stack>

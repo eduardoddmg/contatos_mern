@@ -7,7 +7,7 @@ const auth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return handleError(res, 'Credentials invalid', 401)
+    return handleError(res, 'Credenciais inválidas', 401)
   }
 
   const token = authHeader;
@@ -16,10 +16,15 @@ const auth = async (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     console.log(payload)
     // attach the user to the job routes
-    req.user = { userId: payload.userId, name: payload.name }
+    req.user = { 
+      role: payload.role, 
+      userId: payload.userId, 
+      name: payload.name 
+    };
+    
     next()
   } catch (error) {
-    return handleError(res, 'Authentication invalid', 401)
+    return handleError(res, 'Sessão expirada', 401)
   }
 }
 

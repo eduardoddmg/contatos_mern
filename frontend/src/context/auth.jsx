@@ -1,56 +1,73 @@
-import { createContext, useState, useContext } from "react";
-import { callServer } from "../actions";
+import { createContext, useState, useContext, useEffect } from "react";
+import { useInfo } from "./index";
+
+import * as Functions from '../functions';
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("");
-  const [token, setToken] = useState("");
-  const [isLogged, setIsLogged] = useState(false);
-  const [message, setMessage] = useState({txt: "", success: false});
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [role, setRole] = useState("");
+
+  const [loading, setLoading] = useState(true);
+
+  const info = useInfo();
+
+  useEffect(() => {
+    const getData = async () => {
+      const { type, message, route, ...response } = await Functions.Auth.reLogin(token);
+
+      setUsername(response.username);
+      setRole(response.role);
+
+      info.handleMessage(type, message, route);
+
+      if (!response.success) logout();
+
+      setLoading(false);
+    };
+
+    if (token) getData();
+    else setLoading(false);
+  }, []);
 
   const register = async (data) => {
-    const result = await callServer(data, "/auth/register", "post");
-    if (result.success) {
-      setMessage({txt: "conta criada com sucesso", success: true});
-    } else {
-      setMessageError({txt: result.message, success: false});
-    }
-    return result;
+    const { success, type, message, route } = await Functions.Auth.register(data);
+
+    info.handleMessage(type, message, route);
+
+    return success;
   };
 
   const login = async (data) => {
-    const result = await callServer(data, "/auth/login", "post", token);
-    if (result.success) {
-      setUsername(result.username);
-      setToken(result.token);
-      setMessage("");
-      setIsLogged(true);
-    } else setMessage({txt: result.message, success: false});
-    return result;
+    const response = await Functions.Auth.login(data);
+
+    const { type, message, route } = response;
+
+    setUsername(response.username);
+    setToken(response.token);
+    setRole(response.role);
+
+    info.handleMessage(type, message, route);
   };
 
   const logout = () => {
     setUsername("");
     setToken("");
-    setIsLogged(false);
-    console.log("cheguei aqui");
-    return true;
+    localStorage.setItem("token", "");
   };
-
-  const resetMessage = () => setMessage("");
 
   return (
     <AuthContext.Provider
       value={{
         username,
-        isLogged,
         token,
         register,
         login,
         logout,
-        message,
-        resetMessage,
+        role,
+        loading,
       }}
     >
       {children}

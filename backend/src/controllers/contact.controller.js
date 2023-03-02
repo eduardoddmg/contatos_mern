@@ -21,10 +21,11 @@ const getContact = async (req, res) => {
       createdBy: userId,
     })
     if (!contact) {
-      return handleError(res, `No contact with id ${contactId}`, 400);
+      return handleError(res, `Não existe contato com id: ${contactId}`, 400);
     }
     return res.status(200).json({ success: true, contact })
   } catch (err) {
+    console.log(err);
     return handleError(res, err, 500);    
   }
 }
@@ -35,6 +36,7 @@ const createContact = async (req, res) => {
     const contact = await Contact.create(req.body)
     return res.status(200).json({ success: true, contact })
   } catch (err) {
+    console.log(err);
     return handleError(res, err, 500);
   }
 }
@@ -48,7 +50,7 @@ const updateContact = async (req, res) => {
     } = req
 
     if (name === '' || email === '') {
-      return handleError(res, 'Name or Email fields cannot be empty', 400);
+      return handleError(res, 'Credenciais inválidas', 400);
     }
     const contact = await Contact.findByIdAndUpdate(
       { _id: contactId, createdBy: userId },
@@ -56,10 +58,11 @@ const updateContact = async (req, res) => {
       { new: true, runValidators: true }
     )
     if (!contact) {
-      return handleError(res, `No contact with id ${contactId}`, 400);
+      return handleError(res, `Não há contato com id: ${contactId}`, 400);
     }
     return res.status(201).json({ success: true, contact })
   } catch (err) {
+      console.log(err);
      return handleError(res, err, 500);
   }
 }
@@ -76,10 +79,11 @@ const deleteContact = async (req, res) => {
       createdBy: userId,
     })
     if (!contact) {
-      return handleError(res, `No contact with id ${contactId}`, 400);
+      return handleError(res, `Não há contato com id: ${contactId}`, 400);
     }
     return res.status(200).json({ success: true, message: 'contato deletado com sucesso!'})
   } catch (err) {
+    console.log(err);
     return handleError(res, err, 500);
   }
 }
@@ -90,4 +94,4 @@ module.exports = {
   getAllContacts,
   updateContact,
   getContact,
-}
+};

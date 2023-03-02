@@ -1,66 +1,82 @@
-import { VStack, Center, Button, Heading, Text } from "@chakra-ui/react";
-import { useState, useEffect, useContext } from "react";
-import { useAuth } from "../context";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Button,
+  Form,
+  Stack,
+  InputGroup,
+  Spinner,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { InputPassword, Input, Alert } from "../components/chakra";
-import { configForm } from "../utils";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth, useInfo } from "../context";
+import { useState } from "react";
+import { Input, Checkbox, Alert } from "../components";
+import { schemaAccount } from '../utils';
 
 export const Login = () => {
-  const [messageAlert, setMessageAlert] = useState("");
   const [loading, setLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
 
   const auth = useAuth();
-  const navigate = useNavigate();
+  const info = useInfo();
 
-  const loginForm = async (data) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schemaAccount),
+  });
+
+  const submit = async (data) => {
+    data.type = "user";
+
     setLoading(true);
-    const result = await auth.login(data);
+
+    auth.login(data);
+    
     setLoading(false);
   };
 
   return (
-    <Center w="100%">
-      <VStack
-        onSubmit={handleSubmit(loginForm)}
-        spacing={5}
-        w={["95%", "40%"]}
-        my="10vh"
-        maxW="1500px"
-        as="form"
-        bg="#f4f4f4"
-        p={[2, 10]}
+    <Stack className="col-md-5 col-10 mx-auto my-5" gap={4}>
+      <h1 className="fs-2 text-center">Login</h1>
+      <Alert />
+      <Form
+        className="d-flex flex-column gap-2"
+        onSubmit={handleSubmit(submit)}
       >
-        <Heading>Login</Heading>
-        {auth.message.txt && <Alert />}
         <Input
           title="Username"
-          errors={errors.username}
-          {...register("username", configForm.username)}
+          type="text"
+          errors={errors?.username}
+          {...register("username")}
         />
-        <InputPassword
+        <Input
           title="Password"
-          errors={errors.password}
-          {...register("password", configForm.password)}
+          type="password"
+          errors={errors?.password}
+          {...register("password")}
         />
-        <Button isLoading={loading} type="submit" colorScheme="purple" w="100%">
-          Entrar
+        <Checkbox
+          label="Mantenha-me conectado"
+          type="checkbox"
+          {...register("checkbox")}
+        />
+
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={loading ? true : false}
+        >
+          {!loading && "Submit"}
+          {loading && <Spinner animation="border" size="sm" />}
         </Button>
-        <Center>
-          <Text>
-            Ainda não tem uma conta?{" "}
-            <Link to="/register" style={{ fontWeight: "bold" }}>
-              Criar conta
-            </Link>
-          </Text>
-        </Center>
-      </VStack>
-    </Center>
+
+        <p className="text-center py-3">
+          Não tem uma conta? <Link to="/register">Criar conta</Link>
+        </p>
+      </Form>
+    </Stack>
   );
 };

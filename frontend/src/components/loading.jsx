@@ -1,9 +1,9 @@
-import { Center, Spinner } from "@chakra-ui/react";
+import { Spinner } from "react-bootstrap";
 
-export const LoadingComponent = () => {
+export const Loading = () => {
   return (
-    <Center mt="10vh">
-      <Spinner size="xl" />
-    </Center>
+    <section>
+      <Spinner animation="border" className="mx-auto my-5" size="lg" />
+    </section>
   );
 };

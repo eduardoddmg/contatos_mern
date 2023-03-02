@@ -1,165 +1,70 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useContact, useAuth } from "../context";
-import {
-  Center,
-  Heading,
-  Button,
-  useDisclosure,
-  Text,
-  Stack,
-  Tr,
-  Td,
-  Box,
-  Spinner,
-  Skeleton,
-} from "@chakra-ui/react";
-import { AddIcon, EditIcon, DeleteIcon, InfoOutlineIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import { Modal, Input, Table } from "../components/chakra";
-import { Layout, LoadingComponent } from "../components";
-import { configForm } from "../utils";
-import { useNavigate } from 'react-router-dom';
-
-const Form = ({ onClose, item, edit }) => {
-  const [loading, setLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      name: item?.name,
-      email: item?.email,
-      CPF: item?.CPF,
-      RG: item?.RG,
-      tel: item?.tel,
-    },
-  });
-  const contact = useContact();
-
-  const onSubmit = async (data) => {
-    if (edit) {
-      setLoading(true);
-      const result = await contact.edit(data, item._id);
-      if (result.success) onClose();
-      setLoading(false);
-    } else {
-      setLoading(true);
-      const result = await contact.register(data);
-      if (result.success) onClose();
-      setLoading(false);
-    }
-  };
-
-  return (
-    <Stack as="form" spacing={5} onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        title="Nome"
-        type="text"
-        errors={errors.name}
-        {...register("name", configForm.username)}
-      />
-      <Input title="Email" type="email" errors={errors.email} {...register("email", configForm.email)} />
-      <Input title="CPF" type="number" errors={errors.CPF} {...register("CPF", configForm.CPF)} />
-      <Input title="RG" type="number" errors={errors.RG} {...register("RG", configForm.RG)} />
-      <Input title="Telefone" type="number" errors={errors.tel} {...register("tel", configForm.tel)} />
-      <Button isLoading={loading} my={5} colorScheme="purple" type="submit">
-        Submit
-      </Button>
-    </Stack>
-  );
-};
+import { Stack, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useMemo } from "react";
+import { useAuth, useContact, useInfo } from "../context";
+import { api } from "../utils";
+import { Alert, Table } from '../components';
 
 export const Home = () => {
-  const [data, setData] = useState(null);
-  const [editForm, setEditForm] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const contact = useContact();
+  const info = useInfo();
   const auth = useAuth();
-
+  const contact = useContact();
   const navigate = useNavigate();
 
-  const add = () => {
-    onOpen();
-    setEditForm(false);
-    setData(null);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await contact.getAll();
+      setLoading(false);
+    };
+
+    getData();
+  }, []);
+
+  const create = () => {
+    contact.handleBodyEdit(null);
+    navigate("/form/contact");
   };
 
-  const edit = (item) => {
-    onOpen();
-    setEditForm(true);
-    setData(item);
+  const remove = async (event, id) => {
+    event.target.disabled = true;
+    const response = await contact.remove(id);
+    event.target.disabled = false;
   };
 
-  const remove = (id) => {
-    setLoading(true);
-    contact.remove(id);
-    setLoading(false);
+  const edit = (data) => {
+    contact.handleBodyEdit(data);
+    navigate("/form/contact");
   };
 
-  return (
-    <Layout>
-      {!loading ? (
-        <Box w="full">
-          <Box maxW="1800px" px="5%" m="auto" spacing={5}>
-            <Heading py={5}>Seja bem vindo, {auth.username}</Heading>
-            <Button
-              mb={5}
-              onClick={add}
-              leftIcon={<AddIcon />}
-              colorScheme="purple"
-              variant="solid"
-            >
-              Adicionar
-            </Button>
-            <Modal
-              title="Adicionar contato"
-              isOpen={isOpen}
-              onOpen={onOpen}
-              onClose={onClose}
-            >
-              <Form onClose={onClose} item={data} edit={editForm} />
-            </Modal>
-            {contact.data.length > 0 ? (
-              <Table loading={loading} head={["nome", "contato"]}>
-                {contact.data.length > 0 &&
-                  contact.data.map((item, index) => (
-                    <Tr key={index}>
-                      <Td>{item.name}</Td>
-                      <Td>{item.email}</Td>
-                      <Td>
-                        <Button bg="transparent" onClick={() => edit(item)}>
-                          <EditIcon />
-                        </Button>
-                        <Button
-                          bg="transparent"
-                          onClick={() => remove(item._id)}
-                        >
-                          <DeleteIcon />
-                        </Button>
-                        <Button
-                          bg="transparent"
-                          onClick={() => navigate(`/${item._id}`)}
-                        >
-                          <ExternalLinkIcon />
-                        </Button>
-                      </Td>
-                    </Tr>
-                  ))}
-              </Table>
-            ) : (
-              <Center mt="20vh">
-                <Heading>Você não tem contatos :'(</Heading>
-              </Center>
-            )}
-          </Box>
-        </Box>
+  return !loading ? (
+    <section className="m-5">
+      <Alert />
+      <h1 className="fs-2">Home - {auth.username}</h1>
+      <Button className="px-4 my-3" onClick={create}>
+        Criar
+      </Button>
+      {contact.data ? (<Table data={contact.data}>
+          {contact.data && contact.data.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    {Object.keys(contact.data[0]) && Object.keys(contact.data[0]).map((column, i) => <td key={i}>{item[column]}</td>)}
+                    <td>
+                      <Button variant="warning" onClick={() => edit(item)}>Editar</Button>
+                    </td>
+                    <td>
+                      <Button variant="danger" onClick={e => remove(e, item._id)}>Apagar</Button>
+                    </td>
+                  </tr>
+                )
+              })}
+        </Table>
       ) : (
-        <LoadingComponent />
+        <h1>Você ainda não tem contatos</h1>
       )}
-    </Layout>
+    </section>
+  ) : (
+    <h1>Está carregando...</h1>
   );
 };

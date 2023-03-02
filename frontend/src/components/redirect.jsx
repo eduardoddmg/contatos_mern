@@ -1,14 +1,10 @@
-import { useAuth } from "../context";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Logout = () => {
-  const auth = useAuth();
+export const Redirect = ({ path }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    auth.logout();
+    navigate(path);
   }, []);
-
-  return <h1>Deslogando</h1>
 };

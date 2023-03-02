@@ -1,56 +1,75 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { callServer } from "../actions";
-import { useAuth } from "./auth";
+import { createContext, useState, useContext, useEffect } from "react";
+import * as Functions from "../functions";
+
+import { useAuth, useInfo } from "./index";
 
 export const ContactContext = createContext({});
 
 export const ContactProvider = ({ children }) => {
+  const [data, setData] = useState(null);
+  const [bodyEdit, setBodyEdit] = useState(null);
+  const [load, setLoad] = useState(false);
+
   const auth = useAuth();
 
-  const [data, setData] = useState([]);
+  const info = useInfo();
 
-  const register = async (data) => {
-    const result = await callServer(data, "/contact", "post", auth.token);
-    console.log(result);
-    if (result.success) return getAll();
-  };
+  useEffect(() => {
+    if (!auth.token) setData(null);
+  }, [auth.token]);
 
-  const getAll = async () => {
-    const result = await callServer({}, "/contact", "get", auth.token);
-    if (result.success) setData(result.contacts);
-    return result;
-  };
+  const create = async (data) => {
+    const response = await Functions.Contact.create(data, auth.token);
+    const { type, message, route, success } = response;
 
-  const get = async (id) => {
-    const result = await callServer({}, `/contact/${id}`, "get", auth.token);
-    return result;
+    getAll();
+
+    info.handleMessage(type, message, route);
+
+    return success;
   };
 
   const edit = async (data, id) => {
-    const result = await callServer(
-      data,
-      `/contact/${id}`,
-      "patch",
-      auth.token
-    );
-    if (result.success) return getAll();
+    const response = await Functions.Contact.edit(data, id, auth.token);
+    const { type, message, route, success } = response;
+
+    getAll();
+
+    info.handleMessage(type, message, route);
+
+    return success;
+  };
+
+  const getAll = async () => {
+    const response = await Functions.Contact.getAll(auth.token);
+
+    console.log(response);
+
+    setData(response.contacts);
+    setLoad(true);
   };
 
   const remove = async (id) => {
-    console.log(id);
-    const result = await callServer({}, `/contact/${id}`, "delete", auth.token);
-    if (result.success) return getAll();
+    const { type, message, route } = await Functions.Contact.remove(id, auth.token);
+
+    getAll();
+
+    info.handleMessage(type, message, route);
   };
+
+  const handleBodyEdit = (data) => setBodyEdit(data);
 
   return (
     <ContactContext.Provider
       value={{
         data,
-        register,
-        getAll,
-        get,
+        create,
         remove,
+        getAll,
+        handleBodyEdit,
+        bodyEdit,
         edit,
+        load,
       }}
     >
       {children}
