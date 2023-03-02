@@ -33,7 +33,7 @@ export const Login = () => {
 
     setLoading(true);
 
-    auth.login(data);
+    const response = await auth.login(data);
     
     setLoading(false);
   };
