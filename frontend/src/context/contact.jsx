@@ -22,8 +22,6 @@ export const ContactProvider = ({ children }) => {
     const response = await Functions.Contact.create(data, auth.token);
     const { type, message, route, success } = response;
 
-    getAll();
-
     info.handleMessage(type, message, route);
 
     return success;
@@ -32,8 +30,6 @@ export const ContactProvider = ({ children }) => {
   const edit = async (data, id) => {
     const response = await Functions.Contact.edit(data, id, auth.token);
     const { type, message, route, success } = response;
-
-    getAll();
 
     info.handleMessage(type, message, route);
 
@@ -51,8 +47,6 @@ export const ContactProvider = ({ children }) => {
 
   const remove = async (id) => {
     const { type, message, route } = await Functions.Contact.remove(id, auth.token);
-
-    getAll();
 
     info.handleMessage(type, message, route);
   };

@@ -1,4 +1,5 @@
 import * as Fetch from '../utils/api';
+import { deleteItem, formatDate } from '../utils';
 
 export const create = async (data, token) => {
     const response = await Fetch.post("/contact", data, token);
@@ -33,7 +34,7 @@ export const getAll = async (token) => {
 
 	response.contacts = response.count !== 0 ? response.contacts : null;
 
-	const { contacts } = response;
+  const { contacts } = response;
 
 	return { contacts };
 };

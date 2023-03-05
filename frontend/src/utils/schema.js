@@ -8,6 +8,6 @@ export const schemaAccount = yup.object().shape({
 });
 
 export const schemaContact = yup.object().shape({
-  name: yup.string().required("nome é necessário").matches(nameRegex, "nome inválido"),
+  name: yup.string().required("nome é necessário").matches(nameRegex, "A primeira letra deve ser maiúscula"),
   email: yup.string().email("email inválido").required("email é necessário"),
 });

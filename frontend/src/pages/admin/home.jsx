@@ -17,7 +17,9 @@ export const AdminHome = () => {
 
   console.log(admin.users)
 
-  return !admin.load ? (
+  if (admin.load) return <h1>Está carregando...</h1>
+
+  return (
     <section className="m-5">
       <h1 className="fs-2">Home</h1>
       <Alert />
@@ -38,7 +40,5 @@ export const AdminHome = () => {
         <h1>Você ainda não tem contatos</h1>
       )}
     </section>
-  ) : (
-    <h1>Está carregando...</h1>
-  );
+  )
 };

@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../context";
 
-import Navbar from "./navbar";
+import { Navbar } from './navbar';
+
+import * as S from '../styles';
 
 const items = [
   {
@@ -28,49 +30,18 @@ const items = [
   },
 ];
 
-const NavbarWithAuth = () => {
-  return (
-    <>
-      {items
-        .filter((item) => item.private === true)
-        .map((item, index) => {
-          return (
-            <Link to={item.link} key={index}>
-              {item.name}
-            </Link>
-          );
-        })}
-    </>
-  );
-};
-
-const NavbarWithoutAuth = () => {
-  return (
-    <>
-      {items
-        .filter((item) => item.private === false)
-        .map((item, index) => {
-          return (
-            <Link to={item.link} key={index}>
-              {item.name}
-            </Link>
-          );
-        })}
-    </>
-  );
-};
+const withAuth = items.filter((item) => item.private === true);
+const withoutAuth = items.filter((item) => item.private === false);
 
 export const Layout = ({ children }) => {
   const auth = useAuth();
 
   return (
     <>
-      {auth.token ? (
-        <Navbar items={items.filter((item) => item.private === true)} />
-      ) : (
-        <Navbar items={items.filter((item) => item.private === false)} />
-      )}
-      {children}
+      <Navbar exist={auth.token} items={withAuth} />
+      <S.Container>
+        {children}
+      </S.Container>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DEVELOPMENT = false;
+const DEVELOPMENT = true;
 
 const BASE_URL = DEVELOPMENT ? "http://localhost:3001/api" : 'https://contatos-mern.onrender.com/api';
 

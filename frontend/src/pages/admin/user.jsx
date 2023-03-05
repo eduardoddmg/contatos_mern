@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import * as Fetch from "../../utils/api";
 import { Button } from "react-bootstrap";
 import { useAuth } from "../../context";
-import { Table } from '../../components'
+import { TableAuto } from '../../components'
 
 export const AdminUser = () => {
   const [data, setData] = useState(null);
@@ -32,15 +32,7 @@ export const AdminUser = () => {
       </Button>
       <h1 className="fs-2">Home - {data?.user?.username}</h1>
       {data.contacts ?  (
-        <Table data={data.contacts}>
-          {data.contacts && data.contacts.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    {Object.keys(data.contacts[0]) && Object.keys(data.contacts[0]).map((column, i) => <td key={i}>{item[column]}</td>)}
-                  </tr>
-                )
-              })}
-        </Table>
+        <TableAuto data={data.contacts} />
       ) : (
         <h1>Você ainda não tem contatos</h1>
       )}

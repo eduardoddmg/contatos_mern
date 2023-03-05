@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth, useContact, useInfo } from "../../context";
 import { useState, useMemo } from "react";
-import { api, schemaContact } from "../../utils";
+import { api, schemaContact, maskPhone, maskRG, maskCPF } from "../../utils";
 import { Input } from '../../components';
 
 export const FormContact = () => {
@@ -29,6 +29,7 @@ export const FormContact = () => {
   );
 
   const submit = async (data) => {
+    console.log(data)
     const response = contact.bodyEdit ? 
       await contact.edit(data, contact.bodyEdit._id) :
       await contact.create(data);
@@ -69,7 +70,36 @@ export const FormContact = () => {
           errors={errors?.email}
           {...register("email")}
         />
-
+        <Input
+          title="CPF"
+          type="tel"
+          errors={errors?.CPF}
+          {...register("CPF")}
+          onChange={(event) => {
+            const {value} = event.target
+            event.target.value = maskCPF(value)
+          }}
+        />
+        <Input
+          title="RG"
+          type="tel"
+          errors={errors?.RG}
+          {...register("RG")}
+          onChange={(event) => {
+            const {value} = event.target
+            event.target.value = maskRG(value)
+          }}
+        />
+        <Input
+          title="telefone"
+          type="tel"
+          errors={errors?.tel}
+          {...register("tel")}
+          onChange={(event) => {
+            const {value} = event.target
+            event.target.value = maskPhone(value)
+          }}
+        />
         <Button variant="primary" type="submit">
           Submit
         </Button>

@@ -23,9 +23,12 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.39.7",
     "react-icons": "^4.7.1",
+    "react-input-mask": "^2.0.4",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "redux": "^4.2.0",
+    "styled-components": "^5.3.8",
+    "use-mask-input": "^3.0.6",
     "yup": "^1.0.0"
   },
   "devDependencies": {
