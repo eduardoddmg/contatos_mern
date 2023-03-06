@@ -1,45 +1,43 @@
-import * as Page from "./pages";
+import * as P from "./pages";
 import { Routes, Route } from "react-router-dom";
-import * as Component from "./components";
+import * as C from "./components";
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Component.Wait />}>
+      <Route path="/" element={<C.Wait />}>
         <Route
-          element={<Component.PrivateRoute role="user" redirectTo="/login" />}
+          element={<C.PrivateRoute role="user" redirectTo="/login" />}
         >
-          <Route index element={<Page.Home />} />
+          <Route index element={<P.Home />} />
 
           <Route path="form/">
-            <Route path="contact" element={<Page.FormContact />} />
-            <Route index element={<Component.Redirect path="/" />} />
+            <Route path="contact" element={<P.FormContact />} />
+            <Route index element={<C.Redirect path="/" />} />
           </Route>
 
-          <Route path="/logout" element={<Page.Logout />} />
+          <Route path="/logout" element={<P.Logout />} />
         </Route>
 
         <Route
           element={
-            <Component.PrivateRoute role="admin" redirectTo="/admin/login" />
+            <C.PrivateRoute role="admin" redirectTo="/admin/login" />
           }
         >
-          <Route path="admin" element={<Page.AdminHome />} />
+          <Route path="admin" element={<P.AdminHome />} />
           <Route
             path="admin/user"
-            element={<Component.Redirect path="/admin" />}
+            element={<C.Redirect path="/admin" />}
           />
-          <Route path="admin/user/:id" element={<Page.AdminUser />} />
+          <Route path="admin/user/:id" element={<P.AdminUser />} />
         </Route>
 
-        <Route element={<Component.PublicRoute />}>
-          <Route path="login" element={<Page.Login />} />
-          <Route path="register" element={<Page.Register />} />
-          <Route path="admin/login" element={<Page.AdminLogin />} />
-          <Route path="admin/register" element={<Page.AdminRegister />} />
+        <Route element={<C.PublicRoute />}>
+          <Route path="login" element={<P.Login />} />
+          <Route path="register" element={<P.Register />} />
         </Route>
-        <Route path="*" element={<Page.PageError />} />
-        <Route path="/unauthorized" element={<Page.Unauthorized />} />
+        <Route path="*" element={<P.PError />} />
+        <Route path="/unauthorized" element={<P.Unauthorized />} />
       </Route>
     </Routes>
   );

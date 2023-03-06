@@ -30,3 +30,17 @@ export const Checkbox = forwardRef((props, ref) => {
     </Form.Group>
   );
 });
+
+export const Select = forwardRef((props, ref) => {
+  const { children, title, ...rest } = props;
+
+  return (
+    <Form.Group className="mb-3">
+      <Form.Label>{title}</Form.Label>
+      <Form.Select aria-label="Default select example" ref={ref} {...rest}>
+        {children}
+      </Form.Select>
+    </Form.Group>
+  );
+});
+

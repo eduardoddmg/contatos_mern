@@ -24,14 +24,16 @@ export const AdminHome = () => {
       <h1 className="fs-2">Home</h1>
       <Alert />
       {admin.users ? (
-        <Table data={admin.users}>
+        <Table data={admin.users} columns={["Código", "Nome", "Senha"]}>
           {admin.users && admin.users.map((item, index) => {
                 return (
                   <tr key={index}>
-                    {Object.keys(admin.users[0]) && Object.keys(admin.users[0]).map((column, i) => <td key={i}>{item[column]}</td>)}
-                    <td>
-                      <Button as={Link} to={`/admin/user/${item._id}`}>Acessar</Button>
-                    </td>
+                    <td>{item._id}</td>
+                    <td>{item.username}</td>
+                    <td>{item.password}</td>
+                    {/*<td>
+                                          <Button as={Link} to={`/admin/user/${item._id}`}>Acessar</Button>
+                                        </td>*/}
                   </tr>
                 )
               })}

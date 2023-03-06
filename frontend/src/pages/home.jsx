@@ -47,7 +47,7 @@ export const Home = () => {
       </Button>
       {contact.data ? (
         <>
-          <Table columns={["id", "nome", "email", "criado", "editado"]} data={contact.data}>
+          <Table columns={["código", "nome", "email", "criado", "editado"]} data={contact.data}>
             {contact.data && contact.data.map((item, index) => {
               console.log(item._id);
                   return (

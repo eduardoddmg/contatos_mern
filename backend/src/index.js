@@ -16,7 +16,10 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// routes
+app.get("/api", (req, res) => {
+  return res.send({success: true, message: "Bem-vindo à API"});
+});
+
 app.use("/api/auth", routes.auth);
 app.use("/api/contact", routes.contact);
 app.use("/api/admin", routes.admin);
@@ -30,11 +33,4 @@ mongoose.connect(process.env.MONGODB_URI);
 // server listening
 app.listen(port, () => console.log("Servidor na porta: ", port));
 
-// routes
-app.get("/api", (req, res) => {
-  return res.send({success: true, message: "Bem-vindo à API"});
-});
 
-app.all("*", (req, res) => {
-  return res.send("rota inválida :(");
-});

@@ -6,6 +6,4 @@ export * from './logout';
 export * from './form/contact';
 export * from './unauthorized';
 export * from './admin/home';
-export * from './admin/login';
-export * from './admin/register';
 export * from './admin/user';

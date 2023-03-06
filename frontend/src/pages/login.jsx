@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth, useInfo } from "../context";
 import { useState } from "react";
-import { Input, Checkbox, Alert } from "../components";
+import { Input, Checkbox, Select, Alert } from "../components";
 import { schemaAccount } from '../utils';
 
 export const Login = () => {
@@ -29,8 +29,6 @@ export const Login = () => {
   });
 
   const submit = async (data) => {
-    data.type = "user";
-
     setLoading(true);
 
     const response = await auth.login(data);
@@ -46,6 +44,10 @@ export const Login = () => {
         className="d-flex flex-column gap-2"
         onSubmit={handleSubmit(submit)}
       >
+        <Select {...register("type")} title="Tipo">
+          <option value="user">Usuário</option>
+          <option value="admin">Administrador</option>
+        </Select>
         <Input
           title="Username"
           type="text"
@@ -53,7 +55,7 @@ export const Login = () => {
           {...register("username")}
         />
         <Input
-          title="Password"
+          title="Senha"
           type="password"
           errors={errors?.password}
           {...register("password")}

@@ -49,6 +49,8 @@ export const ContactProvider = ({ children }) => {
     const { type, message, route } = await Functions.Contact.remove(id, auth.token);
 
     info.handleMessage(type, message, route);
+
+    getAll();
   };
 
   const handleBodyEdit = (data) => setBodyEdit(data);

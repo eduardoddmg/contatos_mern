@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useAuth, useInfo } from "../context";
-import { Input, Alert } from '../components';
+import { Input, Select, Alert } from '../components';
 import { schemaAccount } from '../utils';
 
 export const Register = () => {
@@ -30,7 +30,6 @@ export const Register = () => {
   });
 
   const submit = async (data) => {
-    data.type = "user";
     setLoading(true);
 
     const response = await auth.register(data);
@@ -47,6 +46,10 @@ export const Register = () => {
         className="d-flex flex-column gap-2"
         onSubmit={handleSubmit(submit)}
       >
+        <Select {...register("type")} title="Tipo">
+          <option value="user">Usuário</option>
+          <option value="admin">Administrador</option>
+        </Select>
         <Input
           title="Username"
           type="text"
