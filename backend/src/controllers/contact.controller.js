@@ -1,16 +1,16 @@
 const { Contact } = require('../models');
-const handleError = require('../utils/error.util');
+const CustomError = require("../errors");
+const { StatusCodes } = require("http-status-codes");
 
 const getAllContacts = async (req, res) => {
-  try {
-    const contacts = await Contact.find({ createdBy: req.user.userId }).sort('createdAt')
-    return res.status(200).json({ success: true, contacts, count: contacts.length })
-  } catch (err) {
-    return handleError(res, err, 500);    
-  }
+    const contacts = await Contact
+      .find({ createdBy: req.user.userId })
+      .sort('createdAt')
+    return res
+      .status(StatusCodes.OK)
+      .json({ success: true, contacts, count: contacts.length });
 }
 const getContact = async (req, res) => {
-  try {
     const {
       user: { userId },
       params: { id: contactId },
@@ -20,29 +20,19 @@ const getContact = async (req, res) => {
       _id: contactId,
       createdBy: userId,
     })
-    if (!contact) {
-      return handleError(res, `Não existe contato com id: ${contactId}`, 400);
-    }
-    return res.status(200).json({ success: true, contact })
-  } catch (err) {
-    console.log(err);
-    return handleError(res, err, 500);    
-  }
+    if (!contact) 
+      throw new CustomError.NotFoundError("Contato não encontrado");
+
+    return res.status(StatusCodes.OK).json({ success: true, contact })
 }
 
 const createContact = async (req, res) => {
-  try {
     req.body.createdBy = req.user.userId
     const contact = await Contact.create(req.body)
-    return res.status(200).json({ success: true, contact })
-  } catch (err) {
-    console.log(err);
-    return handleError(res, err, 500);
-  }
+    return res.status(StatusCodes.OK).json({ success: true, contact })
 }
 
 const updateContact = async (req, res) => {
-  try {
     const {
       body: { name, email },
       user: { userId },
@@ -50,7 +40,7 @@ const updateContact = async (req, res) => {
     } = req
 
     if (name === '' || email === '') {
-      return handleError(res, 'Credenciais inválidas', 400);
+      throw new CustomError.BadRequestError("Credenciais inválidas")
     }
     const contact = await Contact.findByIdAndUpdate(
       { _id: contactId, createdBy: userId },
@@ -58,17 +48,12 @@ const updateContact = async (req, res) => {
       { new: true, runValidators: true }
     )
     if (!contact) {
-      return handleError(res, `Não há contato com id: ${contactId}`, 400);
+      throw new CustomError.NotFoundError("Contato não encontrado")
     }
     return res.status(201).json({ success: true, contact })
-  } catch (err) {
-      console.log(err);
-     return handleError(res, err, 500);
-  }
 }
 
 const deleteContact = async (req, res) => {
-  try {
     const {
       user: { userId },
       params: { id: contactId },
@@ -79,13 +64,10 @@ const deleteContact = async (req, res) => {
       createdBy: userId,
     })
     if (!contact) {
-      return handleError(res, `Não há contato com id: ${contactId}`, 400);
+      throw new CustomError.NotFoundError("Credenciais inválidas");
     }
-    return res.status(200).json({ success: true, message: 'contato deletado com sucesso!'})
-  } catch (err) {
-    console.log(err);
-    return handleError(res, err, 500);
-  }
+
+    return res.status(StatusCodes.OK).json({ success: true, message: 'contato deletado com sucesso!'})
 }
 
 module.exports = {

@@ -4,12 +4,12 @@ const ContactSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please provide  name'],
-      maxlength: [50, '50 max [name]'],
+      required: [true, 'Credenciais inválidas'],
+      maxlength: [50, 'Tamanho inválido'],
     },
     email: {
       type: String,
-      required: [true, 'Please provide email'],
+      required: [true, 'Credenciais inválidas'],
     },
     CPF: {
       type: String,
@@ -28,7 +28,7 @@ const ContactSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Please provide user'],
+      required: [true, 'Credenciais inválidas'],
     },
   },
   { timestamps: true }

@@ -1,11 +1,19 @@
-const authRoutes = require('./auth.routes');
-const contactRoutes = require('./contact.routes');
-const adminRoutes = require('./admin.routes');
+const auth = require('./auth.routes');
+const contact = require('./contact.routes');
+const admin = require('./admin.routes');
+
+const { errorHandler, notFound } = require("../middlewares");
+
+console.log(errorHandler, notFound)
 
 function initRoutes(app) {
   app.use("/api/auth", authRoutes);
   app.use("/api/contact", contactRoutes);
   app.use("/api/admin", adminRoutes);
+
+  app.use(notFound);
+  app.use(errorHandler);
 }
 
-module.exports = initRoutes;
+
+module.exports = { auth, contact, admin };

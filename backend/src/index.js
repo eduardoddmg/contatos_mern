@@ -2,8 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
 require("dotenv").config();
+require('express-async-errors');
 
-const initRoutes = require('./routes');
+const routes = require('./routes');
+
+const { errorHandler, notFound } = require("./middlewares");
 
 // settings
 const app = express();
@@ -14,7 +17,12 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-initRoutes(app);
+app.use("/api/auth", routes.auth);
+app.use("/api/contact", routes.contact);
+app.use("/api/admin", routes.admin);
+
+app.use(errorHandler);
+app.use(notFound);
 
 // mongodb connection
 mongoose.connect(process.env.MONGODB_URI);
