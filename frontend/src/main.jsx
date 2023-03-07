@@ -9,6 +9,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
+import dotenv from 'dotenv';
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider>

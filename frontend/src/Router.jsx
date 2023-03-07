@@ -36,7 +36,7 @@ const Router = () => {
           <Route path="login" element={<P.Login />} />
           <Route path="register" element={<P.Register />} />
         </Route>
-        <Route path="*" element={<P.PError />} />
+        <Route path="*" element={<P.PageError />} />
         <Route path="/unauthorized" element={<P.Unauthorized />} />
       </Route>
     </Routes>

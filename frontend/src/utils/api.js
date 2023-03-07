@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const DEVELOPMENT = true;
+const DEVELOPMENT = false;
+
+console.log(import.meta.env)
 
 const BASE_URL = DEVELOPMENT ? "http://localhost:3001/api" : 'https://contatos-mern.onrender.com/api';
 
